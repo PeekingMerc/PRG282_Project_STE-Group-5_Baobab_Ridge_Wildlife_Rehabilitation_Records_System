@@ -16,5 +16,10 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
