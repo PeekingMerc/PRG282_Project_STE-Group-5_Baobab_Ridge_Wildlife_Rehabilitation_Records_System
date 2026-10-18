@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 {
     public partial class Form1 : Form
     {
+        private List<Animal> animals = new List<Animal>();
         public Form1()
         {
             InitializeComponent();
@@ -19,32 +23,99 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            RefreshGrid();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void btnAdd_Click(object sender, EventArgs e)
         {
+            string id = txtAnimalID.Text.Trim();
+            string name = txtName.Text.Trim();
+            string species = txtSpecies.Text.Trim();
+            string age = txtAge.Text.Trim();
+            string recoveryScore = txtRecoveryScore.Text.Trim();
 
+            List<string> animalIDs = new List<string>();
+            foreach (Animal animal in animals)
+            {
+                animalIDs.Add(animal.AnimalID);
+            }
+
+            //Validate AnimalID
+            Regex animalIDPattern = new Regex(@"^WR-\d{4}$");
+            if (string.IsNullOrEmpty(id) || !animalIDPattern.IsMatch(id) || animalIDs.Contains(id))
+            {
+                ShowValidationError(txtAnimalID, "Animal ID must be unique and start with WR- followed by exactly 4 digits.");
+                return;
+            }
+
+            //Validate Animal Name
+            if (string.IsNullOrEmpty(name) || name.Length > 30 || name.Contains("|"))
+            {
+                ShowValidationError(txtName, "Name must be 1–30 characters and cannot contain '|'.");
+                return;
+            }
+
+            //Validate Animal Species
+            if (string.IsNullOrEmpty(species) || species.Length > 30 || species.Contains("|"))
+            {
+                ShowValidationError(txtSpecies, "Species must be 1–30 characters and cannot contain '|'.");
+                return;
+            }
+
+            //Validate Animal age
+            if (!int.TryParse(age, out int ageInt) || ageInt < 0 || ageInt > 100)
+            {
+                ShowValidationError(txtAge, "Age must be a whole number between 0 and 100.");
+                return;
+            }
+
+            //Validate Recovery Score
+            if (!int.TryParse(recoveryScore, out int recovery) || recovery < 0 || recovery > 100)
+            {
+                ShowValidationError(txtRecoveryScore, "Recovery Score must be a whole number between 0 and 100.");
+                return;
+            }
+
+            //Calculate Status and housing unit
+            (string status, string housingUnit) = Classification.Classify(recovery);
+
+            //Append to animals.txt
+            Animal newAnimal = new Animal(id, name, species, ageInt, recovery, status, housingUnit);
+            File.AppendAllText(FileHandler.AnimalsFilePath, newAnimal.ToFileLine() + Environment.NewLine, System.Text.Encoding.UTF8);
+            MessageBox.Show($"Animal added successfully!\nStatus: {status}\nHousing Unit: {housingUnit}", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            //Refresh grid
+            RefreshGrid();
+
+            //Clear input boxes
+            txtAnimalID.Clear();
+            txtName.Clear();
+            txtSpecies.Clear();
+            txtAge.Clear();
+            txtRecoveryScore.Clear();
+            txtAnimalID.Focus();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        //Message box validation method for Add animal button 
+        private void ShowValidationError(Control control, string message)
         {
-
+            MessageBox.Show(message, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            control.Focus();
         }
 
-        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        //Refresh items in dgvAnimals
+        private void RefreshGrid()
         {
+            int skippedCount;
+            dgvAnimals.Rows.Clear();
+            animals.Clear();
+            animals = FileHandler.LoadAnimals(out skippedCount);
+            foreach (Animal animal in animals)
+            {
+                dgvAnimals.Rows.Add(animal.AnimalID, animal.Name, animal.Species, animal.Age, animal.RecoveryScore, animal.Status, animal.HousingUnit);
+            }
 
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
+            MessageBox.Show($"Animals loaded successfully. Skipped {skippedCount} entries.", "Successful load", MessageBoxButtons.OK);
         }
     }
 }

@@ -8,4 +8,3 @@ WR-0007|Lerato|Cheetah|5|55|Stable|Recovery Ward
 WR-0008|Tau|African Lion|8|8|Critical|Intensive Care Unit
 WR-0009|Dumi|Spotted Hyena|4|93|Release-Ready|Pre-Release Camp
 WR-0010|Zama|Aardvark|3|27|Serious|High-Dependency Ward
- 

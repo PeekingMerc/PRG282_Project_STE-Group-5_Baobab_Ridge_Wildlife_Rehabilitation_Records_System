@@ -19,7 +19,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 
         //Loads all valid animals from animal.txt
         //Creates an empty file if it doesn't exist
-        public static List<Animal> LoadAnimals(out int skippedCount,Animal animal )
+        public static List<Animal> LoadAnimals(out int skippedCount)
         {
             var animals = new List<Animal>();
             skippedCount = 0;
@@ -58,30 +58,27 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 
                     if (!int.TryParse(parts[3].Trim(), out int age) || age < 0 || age > 100)
                     {
-
                         skippedCount++;
                         continue;
 
                     }
 
-                    if (!int.TryParse(parts[4].Trim(), out int weight) || weight < 0 || weight > 100)
+                    if (!int.TryParse(parts[4].Trim(), out int recoveryScore) || recoveryScore < 0 || recoveryScore > 100)
                     {
                         skippedCount++;
                         continue;
-                    }
 
-                    var (status, housingUnit) = Classification.Classify(animal.RecoveryScore);
+                    }
 
                     animals.Add(new Animal(
                         parts[0].Trim().ToUpper(),
                         parts[1].Trim(),
                         parts[2].Trim(),
                         age,
-                        animal.RecoveryScore,
-                        status,
-                        housingUnit
+                        recoveryScore,
+                        parts[5].Trim(),
+                        parts[6].Trim()
                         ));
-
                 }
 
             }
