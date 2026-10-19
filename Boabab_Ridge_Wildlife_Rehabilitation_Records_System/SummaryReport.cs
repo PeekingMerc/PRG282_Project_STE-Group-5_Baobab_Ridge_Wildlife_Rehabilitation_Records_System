@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
-using System.Runtime.Remoting.Messaging;
 
 namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 {
@@ -25,13 +24,13 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
         public int RecoveringCount { get; set; }
         public int ReleaseReadyCount { get; set; }
 
-        //  summary.text is stored in the same folder as the running app
+        //  summary.txt is stored in the same folder as the running app
         public string SummaryFilePath
         {
             get { return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "summary.txt"); }
         }
-        
-        //  gets totals, averages and count per status from the list.
+
+        //  gets totals, averages and count per status from the list
         public void GenerateSummary(List<Animal> animals)
         {
             //  resets all values first
@@ -41,8 +40,8 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             StableCount = 0;
             RecoveringCount = 0;
             ReleaseReadyCount = 0;
-            AverageAgeText = "n/a";
-            AverageScoreText = "n/a";
+            AverageAgeText = "N/A";
+            AverageScoreText = "N/A";
 
             //  validation in case the data is empty
             if (animals == null || animals.Count == 0)
@@ -53,7 +52,6 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             int ageSum = 0;
             int scoreSum = 0;
 
-            //      -------  REMINDER FOR ME TO MAKE SURE THE NAMES' SPELLING MATCHES  ------- 
             //  gets status counts
             foreach (Animal animal in animals)
             {
@@ -61,12 +59,12 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
                 scoreSum += animal.RecoveryScore;
 
                 //  updates counts based on status
-                switch(animal.Status)
+                switch (animal.Status)
                 {
                     case "Critical":
                         CriticalCount++;
                         break;
-                    case "Serios":
+                    case "Serious":
                         SeriousCount++;
                         break;
                     case "Stable":
@@ -96,22 +94,23 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 
         //  generates the report according to the layout
         public List<string> BuildReportLines()
-        { 
+        {
             List<string> lines = new List<string>();
 
-            lines.Add("BAOBAB RIDGE WILDLIFE REHABILITATION CENTER");
+            lines.Add("BAOBAB RIDGE WILDLIFE REHABILITATION CENTRE");
             lines.Add("ANIMAL SUMMARY REPORT");
             lines.Add("Generated: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture));
             lines.Add(new string('-', 40));
             lines.Add(FormatLine("Total animals:", TotalAnimals.ToString()));
             lines.Add(FormatLine("Average age (years):", AverageAgeText));
             lines.Add(FormatLine("Average recovery score:", AverageScoreText));
+            lines.Add(new string('-', 40));
             lines.Add("Animals per status:");
-            lines.Add(FormatLine(" Critical:", CriticalCount.ToString()));
-            lines.Add(FormatLine(" Serious:", SeriousCount.ToString()));
-            lines.Add(FormatLine(" Stable:", StableCount.ToString()));
-            lines.Add(FormatLine(" Recovering:", RecoveringCount.ToString()));
-            lines.Add(FormatLine(" Release-Ready:", ReleaseReadyCount.ToString()));
+            lines.Add(FormatLine("  Critical:", CriticalCount.ToString()));
+            lines.Add(FormatLine("  Serious:", SeriousCount.ToString()));
+            lines.Add(FormatLine("  Stable:", StableCount.ToString()));
+            lines.Add(FormatLine("  Recovering:", RecoveringCount.ToString()));
+            lines.Add(FormatLine("  Release-Ready:", ReleaseReadyCount.ToString()));
 
             return lines;
         }
@@ -140,7 +139,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             //  exception in case of missing folder and or an open file
             catch (IOException ex)
             {
-                MessageBox.Show("summary.txt could not be save. If it's open, please close it. \n\n" + ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("summary.txt could not be saved. If it's open, please close it. \n\n" + ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             return false;
