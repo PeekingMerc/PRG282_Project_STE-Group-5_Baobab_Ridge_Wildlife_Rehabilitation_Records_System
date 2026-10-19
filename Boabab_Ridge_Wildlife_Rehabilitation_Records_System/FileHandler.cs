@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 {
@@ -110,6 +112,46 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
                 if (!char.IsDigit(id[i])) return false;
 
             return true;
+        }
+
+        //validate animal Input
+        public static string Validate(string id, string name, string species, string age, string recoveryScore, List<string> animalIDs, bool editMode)
+        {
+            if (!editMode)
+            {
+                //Validate AnimalID
+                Regex animalIDPattern = new Regex(@"^WR-\d{4}$");
+                if (string.IsNullOrEmpty(id) || !animalIDPattern.IsMatch(id) || animalIDs.Contains(id))
+                {
+                    return "Animal ID must be unique and start with WR- followed by exactly 4 digits.";
+                }
+            }
+
+            //Validate Animal Name
+            if (string.IsNullOrEmpty(name) || name.Length > 30 || name.Contains("|"))
+            {
+                return "Name must be 1–30 characters and cannot contain '|'.";
+            }
+
+            //Validate Animal Species
+            if (string.IsNullOrEmpty(species) || species.Length > 30 || species.Contains("|"))
+            {
+                return "Species must be 1–30 characters and cannot contain '|'.";
+            }
+
+            //Validate Animal age
+            if (!int.TryParse(age, out int ageInt) || ageInt < 0 || ageInt > 100)
+            {
+                return "Age must be a whole number between 0 and 100.";
+            }
+
+            //Validate Recovery Score
+            if (!int.TryParse(recoveryScore, out int recovery) || recovery < 0 || recovery > 100)
+            {
+                return "Recovery Score must be a whole number between 0 and 100.";
+            }
+
+            return null; //null means valid in this context
         }
 
     }

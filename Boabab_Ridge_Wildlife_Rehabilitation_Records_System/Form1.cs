@@ -17,6 +17,9 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
     public partial class Form1 : Form
     {
         private List<Animal> animals = new List<Animal>();
+        List<string> animalIDs = new List<string>();
+        bool editMode = false;
+
         public Form1()
         {
             InitializeComponent();
@@ -35,65 +38,25 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             string age = txtAge.Text.Trim();
             string recoveryScore = txtRecoveryScore.Text.Trim();
 
-            List<string> animalIDs = new List<string>();
-            foreach (Animal animal in animals)
-            {
-                animalIDs.Add(animal.AnimalID);
-            }
+            //Validate Input
+            string validate = FileHandler.Validate(id, name, species, age, recoveryScore, animalIDs, editMode);
 
-            //Validate AnimalID
-            Regex animalIDPattern = new Regex(@"^WR-\d{4}$");
-            if (string.IsNullOrEmpty(id) || !animalIDPattern.IsMatch(id) || animalIDs.Contains(id))
+            if (validate != null)
             {
-                ShowValidationError(txtAnimalID, "Animal ID must be unique and start with WR- followed by exactly 4 digits.");
-                return;
-            }
-
-            //Validate Animal Name
-            if (string.IsNullOrEmpty(name) || name.Length > 30 || name.Contains("|"))
-            {
-                ShowValidationError(txtName, "Name must be 1–30 characters and cannot contain '|'.");
-                return;
-            }
-
-            //Validate Animal Species
-            if (string.IsNullOrEmpty(species) || species.Length > 30 || species.Contains("|"))
-            {
-                ShowValidationError(txtSpecies, "Species must be 1–30 characters and cannot contain '|'.");
-                return;
-            }
-
-            //Validate Animal age
-            if (!int.TryParse(age, out int ageInt) || ageInt < 0 || ageInt > 100)
-            {
-                ShowValidationError(txtAge, "Age must be a whole number between 0 and 100.");
-                return;
-            }
-
-            //Validate Recovery Score
-            if (!int.TryParse(recoveryScore, out int recovery) || recovery < 0 || recovery > 100)
-            {
-                ShowValidationError(txtRecoveryScore, "Recovery Score must be a whole number between 0 and 100.");
+                ShowValidationError(txtAnimalID, validate);
                 return;
             }
 
             //Calculate Status and housing unit
-            (string status, string housingUnit) = Classification.Classify(recovery);
+            (string status, string housingUnit) = Classification.Classify(int.Parse(recoveryScore));
 
             //Append to animals.txt
-            Animal newAnimal = new Animal(id, name, species, ageInt, recovery, status, housingUnit);
+            Animal newAnimal = new Animal(id, name, species, int.Parse(age), int.Parse(recoveryScore), status, housingUnit);
             File.AppendAllText(FileHandler.AnimalsFilePath, newAnimal.ToFileLine() + Environment.NewLine, System.Text.Encoding.UTF8);
             MessageBox.Show($"Animal added successfully!\nStatus: {status}\nHousing Unit: {housingUnit}", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            //Refresh grid
             RefreshGrid();
-
-            //Clear input boxes
-            txtAnimalID.Clear();
-            txtName.Clear();
-            txtSpecies.Clear();
-            txtAge.Clear();
-            txtRecoveryScore.Clear();
+            ClearInputboxes();
             txtAnimalID.Focus();
         }
 
@@ -116,7 +79,44 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
                 dgvAnimals.Rows.Add(animal.AnimalID, animal.Name, animal.Species, animal.Age, animal.RecoveryScore, animal.Status, animal.HousingUnit);
             }
 
+            foreach (Animal animal in animals)
+            {
+                animalIDs.Add(animal.AnimalID);
+            }
+
             MessageBox.Show($"Animals loaded successfully. Skipped {skippedCount} entries.", "Successful load", MessageBoxButtons.OK);
+        }
+
+        //Enters edit mode
+        private void EnterEditMode()
+        {
+            txtAnimalID.ReadOnly = true;
+            btnAdd.Enabled = false;
+            btnSaveChanges.Enabled = true;
+            btnClear.Enabled = true;
+            editMode = true;
+        }
+
+        //Exits edit mode
+        private void ExitEditMode()
+        {
+            txtAnimalID.ReadOnly = false;
+            btnAdd.Enabled = true;
+            btnSaveChanges.Enabled = false;
+            btnClear.Enabled = false;
+            editMode = false;
+        }
+
+        //Clears Input Boxes
+        private void ClearInputboxes()
+        {
+            txtAnimalID.Clear();
+            txtName.Clear();
+            txtSpecies.Clear();
+            txtAge.Clear();
+            txtRecoveryScore.Clear();
+            txtStatus.Clear();
+            txtHousingUnit.Clear();
         }
 
         private void dgvAnimals_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -133,29 +133,14 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
                 txtStatus.Text = row.Cells[5].Value?.ToString();
                 txtHousingUnit.Text = row.Cells[6].Value?.ToString();
 
-                // Enter edit mode
-                txtAnimalID.ReadOnly = true;
-                btnAdd.Enabled = false;
-                btnSaveChanges.Enabled = true;
-                btnClear.Enabled = true;
+                EnterEditMode();
             }
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            // Exit edit mode
-            txtAnimalID.ReadOnly = false;
-            btnAdd.Enabled = true;
-            btnSaveChanges.Enabled = false;
-            btnClear.Enabled = false;
-
-            txtAnimalID.Clear();
-            txtName.Clear();
-            txtSpecies.Clear();
-            txtAge.Clear();
-            txtRecoveryScore.Clear();
-            txtStatus.Clear();
-            txtHousingUnit.Clear();
+            ExitEditMode();
+            ClearInputboxes();
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -173,10 +158,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
                 txtStatus.Text = match.Status.ToString();
                 txtHousingUnit.Text = match.HousingUnit.ToString();
 
-                txtAnimalID.ReadOnly = true;
-                btnAdd.Enabled = false;
-                btnSaveChanges.Enabled = true;
-                btnClear.Enabled = true;
+                EnterEditMode();
             }
             else
             {
@@ -193,55 +175,24 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             string recoveryScore = txtRecoveryScore.Text.Trim();
             int index = animals.FindIndex(a => a.AnimalID.Equals(txtAnimalID.Text.Trim()));
 
-            //Validate Animal Name
-            if (string.IsNullOrEmpty(name) || name.Length > 30 || name.Contains("|"))
+            //Validate Input
+            string validate = FileHandler.Validate(id, name, species, age, recoveryScore, animalIDs, editMode);
+
+            if (validate != null)
             {
-                ShowValidationError(txtName, "Name must be 1–30 characters and cannot contain '|'.");
+                ShowValidationError(txtAnimalID, validate);
                 return;
             }
-
-            //Validate Animal Species
-            if (string.IsNullOrEmpty(species) || species.Length > 30 || species.Contains("|"))
-            {
-                ShowValidationError(txtSpecies, "Species must be 1–30 characters and cannot contain '|'.");
-                return;
-            }
-
-            //Validate Animal age
-            if (!int.TryParse(age, out int ageInt) || ageInt < 0 || ageInt > 100)
-            {
-                ShowValidationError(txtAge, "Age must be a whole number between 0 and 100.");
-                return;
-            }
-
-            //Validate Recovery Score
-            if (!int.TryParse(recoveryScore, out int recovery) || recovery < 0 || recovery > 100)
-            {
-                ShowValidationError(txtRecoveryScore, "Recovery Score must be a whole number between 0 and 100.");
-                return;
-            }
-
             //Calculate Status and housing unit
-            (string status, string housingUnit) = Classification.Classify(recovery);
+            (string status, string housingUnit) = Classification.Classify(int.Parse(recoveryScore));
 
             //Rewrite file
-            animals[index] = new Animal(id, name, species, ageInt, recovery, status, housingUnit);
+            animals[index] = new Animal(id, name, species, int.Parse(age), int.Parse(recoveryScore), status, housingUnit);
             File.WriteAllLines(FileHandler.AnimalsFilePath, animals.Select(a => a.ToFileLine()), System.Text.Encoding.UTF8);
 
             RefreshGrid();
-
-            txtAnimalID.ReadOnly = false;
-            btnAdd.Enabled = true;
-            btnSaveChanges.Enabled = false;
-            btnClear.Enabled = false;
-
-            txtAnimalID.Clear();
-            txtName.Clear();
-            txtSpecies.Clear();
-            txtAge.Clear();
-            txtRecoveryScore.Clear();
-            txtStatus.Clear();
-            txtHousingUnit.Clear();
+            ExitEditMode();
+            ClearInputboxes();
         }
     }
 }

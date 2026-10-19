@@ -51,7 +51,6 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
         {
             return $"{AnimalID}|{Name}|{Species}|{Age}|{RecoveryScore}|{Status}|{HousingUnit}";
         }
-
     }
 
 }
