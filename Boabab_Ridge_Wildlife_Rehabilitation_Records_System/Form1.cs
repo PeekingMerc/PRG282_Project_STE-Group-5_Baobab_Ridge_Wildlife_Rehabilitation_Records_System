@@ -25,9 +25,22 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             InitializeComponent();
         }
 
+        //Load Animals from file and display them in the DataGridView
+        public void LoadAndDisplayAnimals()
+        {
+            animals = FileHandler.LoadAnimals(out int skipped);
+            RefreshGrid();
+
+            if (skipped > 0)
+            {
+                MessageBox.Show($"{skipped} line(s) in animals.txt were malformed and were skipped.",
+                                "Load Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            RefreshGrid();
+            LoadAndDisplayAnimals();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -74,6 +87,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             dgvAnimals.Rows.Clear();
             animals.Clear();
             animals = FileHandler.LoadAnimals(out skippedCount);
+            animalIDs.Clear();
             foreach (Animal animal in animals)
             {
                 dgvAnimals.Rows.Add(animal.AnimalID, animal.Name, animal.Species, animal.Age, animal.RecoveryScore, animal.Status, animal.HousingUnit);
@@ -83,8 +97,6 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             {
                 animalIDs.Add(animal.AnimalID);
             }
-
-            MessageBox.Show($"Animals loaded successfully. Skipped {skippedCount} entries.", "Successful load", MessageBoxButtons.OK);
         }
 
         //Enters edit mode
@@ -194,5 +206,59 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             ExitEditMode();
             ClearInputboxes();
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            //Check if a row is selected
+            if (dgvAnimals.CurrentRow == null)
+            {
+                MessageBox.Show("Please select an animal from the grid to delete.",
+                                "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            //Get the selected Animal ID
+            string selectedID = dgvAnimals.CurrentRow.Cells[0].Value.ToString();
+
+            //Find the animal in the list
+            Animal animalToDelete = animals.Find(a => a.AnimalID == selectedID);
+            if (animalToDelete == null) return;
+
+            //Show confirmation
+            DialogResult result = MessageBox.Show(
+                $"Delete {animalToDelete.AnimalID} ({animalToDelete.Name})? This cannot be undone.",
+                "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            //If Yes, delete and save
+            if (result == DialogResult.Yes)
+            {
+                // Remove from the list
+                animals.Remove(animalToDelete);
+
+                // Rewrite the file
+                try
+                {
+                    File.WriteAllLines(FileHandler.AnimalsFilePath, animals.Select(a => a.ToFileLine()), System.Text.Encoding.UTF8);
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show("The animals file is in use by another program.\n\n" + ex.Message,
+                                    "File Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    MessageBox.Show("You do not have permission to write animals.txt.",
+                                    "Permission Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                // Refresh the grid
+                RefreshGrid();
+
+                // Clear the textboxes just in case the deleted animal was currently displayed
+                ExitEditMode();
+                ClearInputboxes();
+            }
+        }
+
     }
 }

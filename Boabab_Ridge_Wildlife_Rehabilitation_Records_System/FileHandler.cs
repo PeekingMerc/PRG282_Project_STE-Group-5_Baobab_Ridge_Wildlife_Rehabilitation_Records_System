@@ -72,14 +72,16 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 
                     }
 
+                    var (status, housingUnit) = Classification.Classify(recoveryScore);
+
                     animals.Add(new Animal(
                         parts[0].Trim().ToUpper(),
                         parts[1].Trim(),
                         parts[2].Trim(),
                         age,
                         recoveryScore,
-                        parts[5].Trim(),
-                        parts[6].Trim()
+                        status,
+                        housingUnit
                         ));
                 }
 
