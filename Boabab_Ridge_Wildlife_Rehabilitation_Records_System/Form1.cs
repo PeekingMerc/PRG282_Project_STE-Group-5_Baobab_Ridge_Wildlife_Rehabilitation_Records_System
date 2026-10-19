@@ -260,5 +260,26 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             }
         }
 
+        //  generates summary, shows it on the form and saves to summary.txt
+        private void btnGenerateSummary_Click(object sender, EventArgs e)
+        {
+            int skippedCount;
+            List<Animal> animals = FileHandler.LoadAnimals(out skippedCount);
+
+            SummaryReport report = new SummaryReport();
+            report.GenerateSummary(animals);
+
+            txtTotalAnimals.Text = report.TotalAnimals.ToString();
+            txtAverageAge.Text = report.AverageAgeText;
+            txtAverageScore.Text = report.AverageScoreText;
+            txtCritical.Text = report.CriticalCount.ToString();
+            txtSerious.Text = report.SeriousCount.ToString();
+            txtStable.Text = report.StableCount.ToString();
+            txtRecovering.Text = report.RecoveringCount.ToString();
+            txtReleaseReady.Text = report.ReleaseReadyCount.ToString();
+
+            report.WriteSummaryFile();
+        }
+
     }
 }
