@@ -46,7 +46,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
         //Returns the animal as a pipe delimited line for animal.txt file
         public string ToFileLine()
         {
-            return $"{AnimalID} | {Name} | {Species} | {Age} | {RecoveryScore} | {Status} | {HousingUnit}";
+            return $"{AnimalID}|{Name}|{Species}|{Age}|{RecoveryScore}|{Status}|{HousingUnit}";
         }
 
     }
