@@ -10,12 +10,16 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 {
     public partial class Form1 : Form
     {
         private List<Animal> animals = new List<Animal>();
+        List<string> animalIDs = new List<string>();
+        bool editMode = false;
+
         public Form1()
         {
             InitializeComponent();
@@ -34,65 +38,25 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             string age = txtAge.Text.Trim();
             string recoveryScore = txtRecoveryScore.Text.Trim();
 
-            List<string> animalIDs = new List<string>();
-            foreach (Animal animal in animals)
-            {
-                animalIDs.Add(animal.AnimalID);
-            }
+            //Validate Input
+            string validate = FileHandler.Validate(id, name, species, age, recoveryScore, animalIDs, editMode);
 
-            //Validate AnimalID
-            Regex animalIDPattern = new Regex(@"^WR-\d{4}$");
-            if (string.IsNullOrEmpty(id) || !animalIDPattern.IsMatch(id) || animalIDs.Contains(id))
+            if (validate != null)
             {
-                ShowValidationError(txtAnimalID, "Animal ID must be unique and start with WR- followed by exactly 4 digits.");
-                return;
-            }
-
-            //Validate Animal Name
-            if (string.IsNullOrEmpty(name) || name.Length > 30 || name.Contains("|"))
-            {
-                ShowValidationError(txtName, "Name must be 1–30 characters and cannot contain '|'.");
-                return;
-            }
-
-            //Validate Animal Species
-            if (string.IsNullOrEmpty(species) || species.Length > 30 || species.Contains("|"))
-            {
-                ShowValidationError(txtSpecies, "Species must be 1–30 characters and cannot contain '|'.");
-                return;
-            }
-
-            //Validate Animal age
-            if (!int.TryParse(age, out int ageInt) || ageInt < 0 || ageInt > 100)
-            {
-                ShowValidationError(txtAge, "Age must be a whole number between 0 and 100.");
-                return;
-            }
-
-            //Validate Recovery Score
-            if (!int.TryParse(recoveryScore, out int recovery) || recovery < 0 || recovery > 100)
-            {
-                ShowValidationError(txtRecoveryScore, "Recovery Score must be a whole number between 0 and 100.");
+                ShowValidationError(txtAnimalID, validate);
                 return;
             }
 
             //Calculate Status and housing unit
-            (string status, string housingUnit) = Classification.Classify(recovery);
+            (string status, string housingUnit) = Classification.Classify(int.Parse(recoveryScore));
 
             //Append to animals.txt
-            Animal newAnimal = new Animal(id, name, species, ageInt, recovery, status, housingUnit);
+            Animal newAnimal = new Animal(id, name, species, int.Parse(age), int.Parse(recoveryScore), status, housingUnit);
             File.AppendAllText(FileHandler.AnimalsFilePath, newAnimal.ToFileLine() + Environment.NewLine, System.Text.Encoding.UTF8);
             MessageBox.Show($"Animal added successfully!\nStatus: {status}\nHousing Unit: {housingUnit}", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            //Refresh grid
             RefreshGrid();
-
-            //Clear input boxes
-            txtAnimalID.Clear();
-            txtName.Clear();
-            txtSpecies.Clear();
-            txtAge.Clear();
-            txtRecoveryScore.Clear();
+            ClearInputboxes();
             txtAnimalID.Focus();
         }
 
@@ -115,7 +79,120 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
                 dgvAnimals.Rows.Add(animal.AnimalID, animal.Name, animal.Species, animal.Age, animal.RecoveryScore, animal.Status, animal.HousingUnit);
             }
 
+            foreach (Animal animal in animals)
+            {
+                animalIDs.Add(animal.AnimalID);
+            }
+
             MessageBox.Show($"Animals loaded successfully. Skipped {skippedCount} entries.", "Successful load", MessageBoxButtons.OK);
+        }
+
+        //Enters edit mode
+        private void EnterEditMode()
+        {
+            txtAnimalID.ReadOnly = true;
+            btnAdd.Enabled = false;
+            btnSaveChanges.Enabled = true;
+            btnClear.Enabled = true;
+            editMode = true;
+        }
+
+        //Exits edit mode
+        private void ExitEditMode()
+        {
+            txtAnimalID.ReadOnly = false;
+            btnAdd.Enabled = true;
+            btnSaveChanges.Enabled = false;
+            btnClear.Enabled = false;
+            editMode = false;
+        }
+
+        //Clears Input Boxes
+        private void ClearInputboxes()
+        {
+            txtAnimalID.Clear();
+            txtName.Clear();
+            txtSpecies.Clear();
+            txtAge.Clear();
+            txtRecoveryScore.Clear();
+            txtStatus.Clear();
+            txtHousingUnit.Clear();
+        }
+
+        private void dgvAnimals_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvAnimals.Rows[e.RowIndex];
+
+                txtAnimalID.Text = row.Cells[0].Value?.ToString();
+                txtName.Text = row.Cells[1].Value?.ToString();
+                txtSpecies.Text = row.Cells[2].Value?.ToString();
+                txtAge.Text = row.Cells[3].Value?.ToString();
+                txtRecoveryScore.Text = row.Cells[4].Value?.ToString();
+                txtStatus.Text = row.Cells[5].Value?.ToString();
+                txtHousingUnit.Text = row.Cells[6].Value?.ToString();
+
+                EnterEditMode();
+            }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ExitEditMode();
+            ClearInputboxes();
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            Animal match = animals.FirstOrDefault(a =>
+            a.AnimalID.Equals(txtSearchID.Text.Trim()));
+
+            if (match != null)
+            {
+                txtAnimalID.Text = match.AnimalID.ToString();
+                txtName.Text = match.Name.ToString();
+                txtSpecies.Text = match.Species.ToString();
+                txtAge.Text = match.Age.ToString();
+                txtRecoveryScore.Text = match.RecoveryScore.ToString();
+                txtStatus.Text = match.Status.ToString();
+                txtHousingUnit.Text = match.HousingUnit.ToString();
+
+                EnterEditMode();
+            }
+            else
+            {
+                MessageBox.Show("Specified Animal ID not found.", "Animal ID not found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnSaveChanges_Click(object sender, EventArgs e)
+        {
+            string id = txtAnimalID.Text.Trim();
+            string name = txtName.Text.Trim();
+            string species = txtSpecies.Text.Trim();
+            string age = txtAge.Text.Trim();
+            string recoveryScore = txtRecoveryScore.Text.Trim();
+            int index = animals.FindIndex(a => a.AnimalID.Equals(txtAnimalID.Text.Trim()));
+
+            //Validate Input
+            string validate = FileHandler.Validate(id, name, species, age, recoveryScore, animalIDs, editMode);
+
+            if (validate != null)
+            {
+                ShowValidationError(txtAnimalID, validate);
+                return;
+            }
+            //Calculate Status and housing unit
+            (string status, string housingUnit) = Classification.Classify(int.Parse(recoveryScore));
+
+            //Rewrite file
+            animals[index] = new Animal(id, name, species, int.Parse(age), int.Parse(recoveryScore), status, housingUnit);
+            File.WriteAllLines(FileHandler.AnimalsFilePath, animals.Select(a => a.ToFileLine()), System.Text.Encoding.UTF8);
+
+            RefreshGrid();
+            ExitEditMode();
+            ClearInputboxes();
         }
     }
 }

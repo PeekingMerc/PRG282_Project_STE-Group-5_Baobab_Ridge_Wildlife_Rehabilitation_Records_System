@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 {
@@ -48,7 +51,6 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
         {
             return $"{AnimalID}|{Name}|{Species}|{Age}|{RecoveryScore}|{Status}|{HousingUnit}";
         }
-
     }
 
 }
