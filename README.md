@@ -1,17 +1,22 @@
 # Baobab Ridge Wildlife Rehabilitation Records System
-A C# Windows Forms Application that records animals, calculates their status and housing unit from a "Recovery Score", and then generates a summary report. All Data gets stored in a text file.
+A C# Windows Forms Application that records animals, calculates their status and housing unit from a "Recovery Score", and then generates a summary report. All Data gets stored in text files.
+
 
 ## Members
-**Name**						**Student Number**
-Jason Beckley					602089
-Alexander Martheze				601218
-Boitemogelo Steenkamp			603659
-Ben Philip Van der Westhuizen	604776
+| **Name** | **Student Number** |
+|------|----------------|
+| Alexander Martheze | 601218 |
+| Boitemogelo Steenkamp | 603659 |
+| Ben Philip Van der Westhuizen | 604776 |
+
+*Note: Jason Beckley (602089) was registered in the group but withdrew from the module and did not contribute to the project.*
+
 
 ## Build and Run
-**1.** Close the repository.
-**2.** Open the .sln file in VSC2022
-**3.** Build and run by pressing "F5".
+**1.** Clone the repository
+**2.** Open the .sln file in Visual Studio 2022 (the .NET 8 SDK is required)
+**3.** Build and run by pressing "F5"
+
 
 ## Features
 - Add an animal (with validation)
@@ -20,12 +25,17 @@ Ben Philip Van der Westhuizen	604776
 - Delete an animal (with confirmation)
 - Generate a summary report (shown on the form and saved to summary.txt)
 
+
 ## File Formats
 animals.txt displays one animal per line, with fields seperated by "|":
-	*ID|Name|Species|Age|Score|Status|Housing Unit*
-	*WR-0002|Naledi|Serval|3|62|Recovering|Outdoor Enclosure*
+```
+ID|Name|Species|Age|Score|Status|Housing Unit
+WR-0002|Naledi|Serval|3|62|Recovering|Outdoor Enclosure
+```
 
-summary.txt displays a text report taht reflects the most recent summary generation. It contains the totals animals, average age, average recovery, score and the count of each status.
+summary.txt displays a text report that reflects the most recent summary generation. It contains the totals animals, average age, average recovery, score and the count of each status. It's overwritten each time with an updated summary report.
+
 
 ## Known Limitations
-- n/a
+- Lines in animals.txt that are "malformed" are skipped when loading and are not kept when the file is rewritten
+- An animal ID cannot be changed after the animal is saved
