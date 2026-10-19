@@ -61,6 +61,22 @@
             colHousingUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             lblSearch = new System.Windows.Forms.Label();
             btnSearch = new System.Windows.Forms.Button();
+            lblTotalAnimals = new System.Windows.Forms.Label();
+            txtTotalAnimals = new System.Windows.Forms.TextBox();
+            lblAverageAge = new System.Windows.Forms.Label();
+            txtAverageAge = new System.Windows.Forms.TextBox();
+            lblAverageScore = new System.Windows.Forms.Label();
+            txtAverageScore = new System.Windows.Forms.TextBox();
+            lblCritical = new System.Windows.Forms.Label();
+            txtCritical = new System.Windows.Forms.TextBox();
+            lblSerious = new System.Windows.Forms.Label();
+            txtSerious = new System.Windows.Forms.TextBox();
+            lblStable = new System.Windows.Forms.Label();
+            txtStable = new System.Windows.Forms.TextBox();
+            lblRecovering = new System.Windows.Forms.Label();
+            txtRecovering = new System.Windows.Forms.TextBox();
+            lblReleaseReady = new System.Windows.Forms.Label();
+            txtReleaseReady = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvAnimals).BeginInit();
             SuspendLayout();
             // 
@@ -206,7 +222,7 @@
             // 
             // btnAdd
             // 
-            btnAdd.Location = new System.Drawing.Point(40, 462);
+            btnAdd.Location = new System.Drawing.Point(40, 482);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new System.Drawing.Size(94, 22);
             btnAdd.TabIndex = 20;
@@ -217,7 +233,7 @@
             // btnSaveChanges
             // 
             btnSaveChanges.Enabled = false;
-            btnSaveChanges.Location = new System.Drawing.Point(174, 462);
+            btnSaveChanges.Location = new System.Drawing.Point(174, 482);
             btnSaveChanges.Name = "btnSaveChanges";
             btnSaveChanges.Size = new System.Drawing.Size(100, 22);
             btnSaveChanges.TabIndex = 21;
@@ -228,7 +244,7 @@
             // btnClear
             // 
             btnClear.Enabled = false;
-            btnClear.Location = new System.Drawing.Point(297, 462);
+            btnClear.Location = new System.Drawing.Point(297, 482);
             btnClear.Name = "btnClear";
             btnClear.Size = new System.Drawing.Size(88, 22);
             btnClear.TabIndex = 22;
@@ -238,7 +254,7 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new System.Drawing.Point(421, 462);
+            btnDelete.Location = new System.Drawing.Point(421, 482);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new System.Drawing.Size(89, 22);
             btnDelete.TabIndex = 23;
@@ -254,6 +270,7 @@
             btnGenerateSummary.TabIndex = 24;
             btnGenerateSummary.Text = "Generate Summary";
             btnGenerateSummary.UseVisualStyleBackColor = true;
+            btnGenerateSummary.Click += btnGenerateSummary_Click;
             // 
             // txtSearchID
             // 
@@ -350,11 +367,163 @@
             btnSearch.UseVisualStyleBackColor = true;
             btnSearch.Click += btnSearch_Click;
             // 
+            // lblTotalAnimals
+            // 
+            lblTotalAnimals.AutoSize = true;
+            lblTotalAnimals.Location = new System.Drawing.Point(449, 163);
+            lblTotalAnimals.Name = "lblTotalAnimals";
+            lblTotalAnimals.Size = new System.Drawing.Size(83, 15);
+            lblTotalAnimals.TabIndex = 29;
+            lblTotalAnimals.Text = "Total animals :";
+            // 
+            // txtTotalAnimals
+            // 
+            txtTotalAnimals.Location = new System.Drawing.Point(620, 160);
+            txtTotalAnimals.Name = "txtTotalAnimals";
+            txtTotalAnimals.ReadOnly = true;
+            txtTotalAnimals.Size = new System.Drawing.Size(120, 23);
+            txtTotalAnimals.TabIndex = 30;
+            // 
+            // lblAverageAge
+            // 
+            lblAverageAge.AutoSize = true;
+            lblAverageAge.Location = new System.Drawing.Point(449, 203);
+            lblAverageAge.Name = "lblAverageAge";
+            lblAverageAge.Size = new System.Drawing.Size(116, 15);
+            lblAverageAge.TabIndex = 31;
+            lblAverageAge.Text = "Average age (years) :";
+            // 
+            // txtAverageAge
+            // 
+            txtAverageAge.Location = new System.Drawing.Point(620, 200);
+            txtAverageAge.Name = "txtAverageAge";
+            txtAverageAge.ReadOnly = true;
+            txtAverageAge.Size = new System.Drawing.Size(120, 23);
+            txtAverageAge.TabIndex = 32;
+            // 
+            // lblAverageScore
+            // 
+            lblAverageScore.AutoSize = true;
+            lblAverageScore.Location = new System.Drawing.Point(449, 243);
+            lblAverageScore.Name = "lblAverageScore";
+            lblAverageScore.Size = new System.Drawing.Size(135, 15);
+            lblAverageScore.TabIndex = 33;
+            lblAverageScore.Text = "Average recovery score :";
+            // 
+            // txtAverageScore
+            // 
+            txtAverageScore.Location = new System.Drawing.Point(620, 240);
+            txtAverageScore.Name = "txtAverageScore";
+            txtAverageScore.ReadOnly = true;
+            txtAverageScore.Size = new System.Drawing.Size(120, 23);
+            txtAverageScore.TabIndex = 34;
+            // 
+            // lblCritical
+            // 
+            lblCritical.AutoSize = true;
+            lblCritical.Location = new System.Drawing.Point(449, 283);
+            lblCritical.Name = "lblCritical";
+            lblCritical.Size = new System.Drawing.Size(50, 15);
+            lblCritical.TabIndex = 35;
+            lblCritical.Text = "Critical :";
+            // 
+            // txtCritical
+            // 
+            txtCritical.Location = new System.Drawing.Point(620, 280);
+            txtCritical.Name = "txtCritical";
+            txtCritical.ReadOnly = true;
+            txtCritical.Size = new System.Drawing.Size(120, 23);
+            txtCritical.TabIndex = 36;
+            // 
+            // lblSerious
+            // 
+            lblSerious.AutoSize = true;
+            lblSerious.Location = new System.Drawing.Point(449, 323);
+            lblSerious.Name = "lblSerious";
+            lblSerious.Size = new System.Drawing.Size(51, 15);
+            lblSerious.TabIndex = 37;
+            lblSerious.Text = "Serious :";
+            // 
+            // txtSerious
+            // 
+            txtSerious.Location = new System.Drawing.Point(620, 320);
+            txtSerious.Name = "txtSerious";
+            txtSerious.ReadOnly = true;
+            txtSerious.Size = new System.Drawing.Size(120, 23);
+            txtSerious.TabIndex = 38;
+            // 
+            // lblStable
+            // 
+            lblStable.AutoSize = true;
+            lblStable.Location = new System.Drawing.Point(449, 363);
+            lblStable.Name = "lblStable";
+            lblStable.Size = new System.Drawing.Size(45, 15);
+            lblStable.TabIndex = 39;
+            lblStable.Text = "Stable :";
+            // 
+            // txtStable
+            // 
+            txtStable.Location = new System.Drawing.Point(620, 360);
+            txtStable.Name = "txtStable";
+            txtStable.ReadOnly = true;
+            txtStable.Size = new System.Drawing.Size(120, 23);
+            txtStable.TabIndex = 40;
+            // 
+            // lblRecovering
+            // 
+            lblRecovering.AutoSize = true;
+            lblRecovering.Location = new System.Drawing.Point(449, 403);
+            lblRecovering.Name = "lblRecovering";
+            lblRecovering.Size = new System.Drawing.Size(72, 15);
+            lblRecovering.TabIndex = 41;
+            lblRecovering.Text = "Recovering :";
+            // 
+            // txtRecovering
+            // 
+            txtRecovering.Location = new System.Drawing.Point(620, 400);
+            txtRecovering.Name = "txtRecovering";
+            txtRecovering.ReadOnly = true;
+            txtRecovering.Size = new System.Drawing.Size(120, 23);
+            txtRecovering.TabIndex = 42;
+            // 
+            // lblReleaseReady
+            // 
+            lblReleaseReady.AutoSize = true;
+            lblReleaseReady.Location = new System.Drawing.Point(449, 443);
+            lblReleaseReady.Name = "lblReleaseReady";
+            lblReleaseReady.Size = new System.Drawing.Size(89, 15);
+            lblReleaseReady.TabIndex = 43;
+            lblReleaseReady.Text = "Release-Ready :";
+            // 
+            // txtReleaseReady
+            // 
+            txtReleaseReady.Location = new System.Drawing.Point(620, 440);
+            txtReleaseReady.Name = "txtReleaseReady";
+            txtReleaseReady.ReadOnly = true;
+            txtReleaseReady.Size = new System.Drawing.Size(120, 23);
+            txtReleaseReady.TabIndex = 44;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(839, 847);
+            Controls.Add(txtTotalAnimals);
+            Controls.Add(lblTotalAnimals);
+            Controls.Add(txtAverageAge);
+            Controls.Add(lblAverageAge);
+            Controls.Add(txtAverageScore);
+            Controls.Add(lblAverageScore);
+            Controls.Add(txtCritical);
+            Controls.Add(lblCritical);
+            Controls.Add(txtSerious);
+            Controls.Add(lblSerious);
+            Controls.Add(txtStable);
+            Controls.Add(lblStable);
+            Controls.Add(txtRecovering);
+            Controls.Add(lblRecovering);
+            Controls.Add(txtReleaseReady);
+            Controls.Add(lblReleaseReady);
             Controls.Add(btnSearch);
             Controls.Add(lblSearch);
             Controls.Add(dgvAnimals);
@@ -425,6 +594,21 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colHousingUnit;
         private System.Windows.Forms.Label lblSearch;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Label lblTotalAnimals;
+        private System.Windows.Forms.TextBox txtTotalAnimals;
+        private System.Windows.Forms.Label lblAverageAge;
+        private System.Windows.Forms.TextBox txtAverageAge;
+        private System.Windows.Forms.Label lblAverageScore;
+        private System.Windows.Forms.TextBox txtAverageScore;
+        private System.Windows.Forms.Label lblCritical;
+        private System.Windows.Forms.TextBox txtCritical;
+        private System.Windows.Forms.Label lblSerious;
+        private System.Windows.Forms.TextBox txtSerious;
+        private System.Windows.Forms.Label lblStable;
+        private System.Windows.Forms.TextBox txtStable;
+        private System.Windows.Forms.Label lblRecovering;
+        private System.Windows.Forms.TextBox txtRecovering;
+        private System.Windows.Forms.Label lblReleaseReady;
+        private System.Windows.Forms.TextBox txtReleaseReady;
     }
 }
-
