@@ -50,7 +50,7 @@
             btnClear = new System.Windows.Forms.Button();
             btnDelete = new System.Windows.Forms.Button();
             btnGenerateSummary = new System.Windows.Forms.Button();
-            textSearchID = new System.Windows.Forms.TextBox();
+            txtSearchID = new System.Windows.Forms.TextBox();
             dgvAnimals = new System.Windows.Forms.DataGridView();
             colAnimalID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,6 +60,7 @@
             colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             colHousingUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             lblSearch = new System.Windows.Forms.Label();
+            btnSearch = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)dgvAnimals).BeginInit();
             SuspendLayout();
             // 
@@ -191,6 +192,7 @@
             // 
             txtStatus.Location = new System.Drawing.Point(174, 358);
             txtStatus.Name = "txtStatus";
+            txtStatus.ReadOnly = true;
             txtStatus.Size = new System.Drawing.Size(182, 23);
             txtStatus.TabIndex = 17;
             // 
@@ -198,6 +200,7 @@
             // 
             txtHousingUnit.Location = new System.Drawing.Point(174, 400);
             txtHousingUnit.Name = "txtHousingUnit";
+            txtHousingUnit.ReadOnly = true;
             txtHousingUnit.Size = new System.Drawing.Size(182, 23);
             txtHousingUnit.TabIndex = 18;
             // 
@@ -213,21 +216,25 @@
             // 
             // btnSaveChanges
             // 
+            btnSaveChanges.Enabled = false;
             btnSaveChanges.Location = new System.Drawing.Point(174, 462);
             btnSaveChanges.Name = "btnSaveChanges";
             btnSaveChanges.Size = new System.Drawing.Size(100, 22);
             btnSaveChanges.TabIndex = 21;
             btnSaveChanges.Text = "Save Changes";
             btnSaveChanges.UseVisualStyleBackColor = true;
+            btnSaveChanges.Click += btnSaveChanges_Click;
             // 
             // btnClear
             // 
+            btnClear.Enabled = false;
             btnClear.Location = new System.Drawing.Point(297, 462);
             btnClear.Name = "btnClear";
             btnClear.Size = new System.Drawing.Size(88, 22);
             btnClear.TabIndex = 22;
             btnClear.Text = "Clear";
             btnClear.UseVisualStyleBackColor = true;
+            btnClear.Click += btnClear_Click;
             // 
             // btnDelete
             // 
@@ -247,12 +254,12 @@
             btnGenerateSummary.Text = "Generate Summary";
             btnGenerateSummary.UseVisualStyleBackColor = true;
             // 
-            // textSearchID
+            // txtSearchID
             // 
-            textSearchID.Location = new System.Drawing.Point(582, 112);
-            textSearchID.Name = "textSearchID";
-            textSearchID.Size = new System.Drawing.Size(131, 23);
-            textSearchID.TabIndex = 25;
+            txtSearchID.Location = new System.Drawing.Point(582, 112);
+            txtSearchID.Name = "txtSearchID";
+            txtSearchID.Size = new System.Drawing.Size(131, 23);
+            txtSearchID.TabIndex = 25;
             // 
             // dgvAnimals
             // 
@@ -271,6 +278,7 @@
             dgvAnimals.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             dgvAnimals.Size = new System.Drawing.Size(788, 290);
             dgvAnimals.TabIndex = 26;
+            dgvAnimals.CellClick += dgvAnimals_CellClick;
             // 
             // colAnimalID
             // 
@@ -331,14 +339,25 @@
             lblSearch.TabIndex = 27;
             lblSearch.Text = "Search By ID :";
             // 
+            // btnSearch
+            // 
+            btnSearch.Location = new System.Drawing.Point(719, 112);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new System.Drawing.Size(75, 23);
+            btnSearch.TabIndex = 28;
+            btnSearch.Text = "Search";
+            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(839, 847);
+            Controls.Add(btnSearch);
             Controls.Add(lblSearch);
             Controls.Add(dgvAnimals);
-            Controls.Add(textSearchID);
+            Controls.Add(txtSearchID);
             Controls.Add(btnGenerateSummary);
             Controls.Add(btnDelete);
             Controls.Add(btnClear);
@@ -394,7 +413,7 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnGenerateSummary;
-        private System.Windows.Forms.TextBox textSearchID;
+        private System.Windows.Forms.TextBox txtSearchID;
         private System.Windows.Forms.DataGridView dgvAnimals;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAnimalID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colName;
@@ -404,6 +423,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn colHousingUnit;
         private System.Windows.Forms.Label lblSearch;
+        private System.Windows.Forms.Button btnSearch;
     }
 }
 
