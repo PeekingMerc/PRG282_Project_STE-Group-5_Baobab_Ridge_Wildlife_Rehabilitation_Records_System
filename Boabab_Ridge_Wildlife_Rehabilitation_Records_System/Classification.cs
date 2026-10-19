@@ -19,7 +19,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
                 return ("Critical", "Intensive Care Unit");
 
             if(recoveryscore >= 20 && recoveryscore <= 39)
-                return ("Serious", "High Dependency Ward");
+                return ("Serious", "High-Dependency Ward");
 
             if(recoveryscore >= 40 && recoveryscore <= 59)
                 return ("Stable", "Recovery Ward");
@@ -28,7 +28,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
                 return ("Recovering", "Outdoor Enclosure");
 
             if(recoveryscore >= 80 && recoveryscore <= 100)
-                return ("Release Ready", "Pre Release Camp");
+                return ("Release-Ready", "Pre-Release Camp");
 
             return ("", "");
         }
