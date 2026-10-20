@@ -10,17 +10,17 @@ using System.Xml.Linq;
 
 namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 {
-    //internal class FileHandler
-    //{
-    //}
-
+    
+    //Handles all file operations (reading and writing) for the animals.txt file
+    //as well as input validation
     public static class FileHandler
     {
-        //Path to animals.txt in the same folder as the running .exe.  
+        //Gets the full file path to animals.txt in the same directory as the running .exe. 
         public static string AnimalsFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "animals.txt");
 
-        //Loads all valid animals from animal.txt
-        //Creates an empty file if it doesn't exist
+        // Loads all valid animals from animals.txt into a list. 
+        // Skips malformed lines and reports the count.
+        // Creates an empty file if one does not exist.
         public static List<Animal> LoadAnimals(out int skippedCount)
         {
             var animals = new List<Animal>();
@@ -28,6 +28,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 
             try
             {
+                //Creates an empty file if it doesn't exist
                 if (!File.Exists(AnimalsFilePath))
                 {
                     File.Create(AnimalsFilePath).Close();
@@ -38,6 +39,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 
                 foreach (string line in lines)
                 {
+                    //Skip blank lines
                     if (string.IsNullOrWhiteSpace(line))
                     {
                         skippedCount++;
@@ -46,18 +48,21 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 
                     string[] parts = line.Split('|');
 
+                    //Must have exactly 7 fields
                     if (parts.Length != 7)
                     {
                         skippedCount++;
                         continue;
                     }
 
+                    //Validate ID format
                     if (!IsValidID(parts[0].Trim()))
                     {
                         skippedCount++;
                         continue;
                     }
 
+                    //Validate age
                     if (!int.TryParse(parts[3].Trim(), out int age) || age < 0 || age > 100)
                     {
                         skippedCount++;
@@ -65,6 +70,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 
                     }
 
+                    //Validate RecoveryScore
                     if (!int.TryParse(parts[4].Trim(), out int recoveryScore) || recoveryScore < 0 || recoveryScore > 100)
                     {
                         skippedCount++;
@@ -72,6 +78,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 
                     }
 
+                    // Recalculate status and housing unit to ensure they match the score
                     var (status, housingUnit) = Classification.Classify(recoveryScore);
 
                     animals.Add(new Animal(
@@ -102,6 +109,8 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             return animals;
 
         }
+
+        // Checks if a given string matches the required Animal ID format (WR-####).
         public static bool IsValidID(string id)
         {
             if (string.IsNullOrWhiteSpace(id)) return false;
@@ -116,7 +125,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             return true;
         }
 
-        //validate animal Input
+        //Validates all user input fields for adding or editing an animal.
         public static string Validate(string id, string name, string species, string age, string recoveryScore, List<string> animalIDs, bool editMode)
         {
             if (!editMode)

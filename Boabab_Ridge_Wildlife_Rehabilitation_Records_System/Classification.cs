@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 {
-    
+    //Contains the central logic for determining an animal's status and housing unit.
 
     public static class Classification
     {
-
+        // Maps a Recovery Score (0-100) to the exact Status and Housing Unit required by the centre.
+        //<returns> A tuple containing the calculated Status and HousingUnit.<returns>
         public static (string Status, string HousingUnit) Classify(int recoveryscore)
         {
 
-
+            
             if(recoveryscore >= 0 && recoveryscore <= 19)
                 return ("Critical", "Intensive Care Unit");
 
@@ -30,6 +31,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             if(recoveryscore >= 80 && recoveryscore <= 100)
                 return ("Release-Ready", "Pre-Release Camp");
 
+            //Fallback : returns empty strings if the score is somehow outside 0-100
             return ("", "");
         }
 

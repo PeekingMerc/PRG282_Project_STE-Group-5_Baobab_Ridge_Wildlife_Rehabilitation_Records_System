@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -16,8 +17,11 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 {
     public partial class Form1 : Form
     {
+        //In-memory list of animals currently loaded from the file
         private List<Animal> animals = new List<Animal>();
+        // List of IDs used for quick validation
         List<string> animalIDs = new List<string>();
+        // Tracks if the form is currently editing an existing animal
         bool editMode = false;
 
         public Form1()
@@ -25,7 +29,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             InitializeComponent();
         }
 
-        //Load Animals from file and display them in the DataGridView
+        //Loads animals from the text file into the grid and shows a warning if any lines were skipped.
         public void LoadAndDisplayAnimals()
         {
             animals = FileHandler.LoadAnimals(out int skipped);
@@ -38,11 +42,13 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             }
         }
 
+        // Triggers the initial load of data when the form starts.
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadAndDisplayAnimals();
         }
 
+        //Validates input, calculates status, and appends a new animal to the text file.
         private void btnAdd_Click(object sender, EventArgs e)
         {
             string id = txtAnimalID.Text.Trim();
@@ -80,7 +86,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             control.Focus();
         }
 
-        //Refresh items in dgvAnimals
+        //Clears and reloads the DataGridView from the file to ensure no duplicate rows appear.
         private void RefreshGrid()
         {
             int skippedCount;
@@ -88,10 +94,14 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             animals.Clear();
             animals = FileHandler.LoadAnimals(out skippedCount);
             animalIDs.Clear();
+
+            //Populate the grid with animals
             foreach (Animal animal in animals)
             {
                 dgvAnimals.Rows.Add(animal.AnimalID, animal.Name, animal.Species, animal.Age, animal.RecoveryScore, animal.Status, animal.HousingUnit);
             }
+
+            //Rebuild the list of unique IDs for validation
 
             foreach (Animal animal in animals)
             {
@@ -119,7 +129,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             editMode = false;
         }
 
-        //Clears Input Boxes
+        //Clears all textboxes on the form.
         private void ClearInputboxes()
         {
             txtAnimalID.Clear();
@@ -131,6 +141,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             txtHousingUnit.Clear();
         }
 
+        //Loads the selected animal from the grid into the textboxes for editing
         private void dgvAnimals_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -149,12 +160,14 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             }
         }
 
+        // Resets the form back to Add mode and clears the boxes.
         private void btnClear_Click(object sender, EventArgs e)
         {
             ExitEditMode();
             ClearInputboxes();
         }
 
+        // Searches for an animal by ID and loads it into the textboxes.
         private void btnSearch_Click(object sender, EventArgs e)
         {
             Animal match = animals.FirstOrDefault(a =>
@@ -178,6 +191,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             }
         }
 
+        // Updates the existing animal's data, recalculates status, and saves to the file.
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
             string id = txtAnimalID.Text.Trim();
@@ -207,6 +221,7 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
             ClearInputboxes();
         }
 
+        // Deletes the selected animal from the list and the file, with a confirmation prompt.
         private void btnDelete_Click(object sender, EventArgs e)
         {
             //Check if a row is selected
