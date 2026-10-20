@@ -9,9 +9,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
 {
-    //internal class Animal
-    //{
-    //}
+   
 
     //Represents a single animal in the rehabilitation center
     //Status and HousingUnit are claculated from the RecoveryScore.
@@ -28,10 +26,10 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
         public string HousingUnit { get; set; }
 
 
-        //Parameterless constructor
+        //Parameterless constructor required for DatagridView data binding.
         public Animal() { }
 
-        //Full constructor used when laoding from file
+        //Full constructor used when laoding an animal from the text file.
         public Animal(string _animalid, string _name, string _species, int _age, int _recoveryscore, string _status, string housingunit)
         {
 
@@ -46,9 +44,10 @@ namespace Boabab_Ridge_Wildlife_Rehabilitation_Records_System
         }
 
 
-        //Returns the animal as a pipe delimited line for animal.txt file
+        //Converts the Animal object into a pipe-delimited string for writing to animals.txt
         public string ToFileLine()
         {
+            
             return $"{AnimalID}|{Name}|{Species}|{Age}|{RecoveryScore}|{Status}|{HousingUnit}";
         }
     }
