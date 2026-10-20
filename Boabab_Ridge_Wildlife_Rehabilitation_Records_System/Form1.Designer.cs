@@ -37,7 +37,6 @@
             lblHousingUnit = new System.Windows.Forms.Label();
             txtAnimalID = new System.Windows.Forms.TextBox();
             label8 = new System.Windows.Forms.Label();
-            label9 = new System.Windows.Forms.Label();
             BaobabTitle = new System.Windows.Forms.Label();
             txtName = new System.Windows.Forms.TextBox();
             txtSpecies = new System.Windows.Forms.TextBox();
@@ -77,13 +76,17 @@
             txtRecovering = new System.Windows.Forms.TextBox();
             lblReleaseReady = new System.Windows.Forms.Label();
             txtReleaseReady = new System.Windows.Forms.TextBox();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            gbSummary = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)dgvAnimals).BeginInit();
+            groupBox1.SuspendLayout();
+            gbSummary.SuspendLayout();
             SuspendLayout();
             // 
             // lblAnimalID
             // 
             lblAnimalID.AutoSize = true;
-            lblAnimalID.Location = new System.Drawing.Point(38, 118);
+            lblAnimalID.Location = new System.Drawing.Point(13, 39);
             lblAnimalID.Name = "lblAnimalID";
             lblAnimalID.Size = new System.Drawing.Size(65, 15);
             lblAnimalID.TabIndex = 2;
@@ -92,7 +95,7 @@
             // lblName
             // 
             lblName.AutoSize = true;
-            lblName.Location = new System.Drawing.Point(38, 170);
+            lblName.Location = new System.Drawing.Point(13, 88);
             lblName.Name = "lblName";
             lblName.Size = new System.Drawing.Size(45, 15);
             lblName.TabIndex = 3;
@@ -101,7 +104,7 @@
             // lblSpecies
             // 
             lblSpecies.AutoSize = true;
-            lblSpecies.Location = new System.Drawing.Point(38, 219);
+            lblSpecies.Location = new System.Drawing.Point(13, 133);
             lblSpecies.Name = "lblSpecies";
             lblSpecies.Size = new System.Drawing.Size(52, 15);
             lblSpecies.TabIndex = 4;
@@ -110,7 +113,7 @@
             // lblAge
             // 
             lblAge.AutoSize = true;
-            lblAge.Location = new System.Drawing.Point(38, 270);
+            lblAge.Location = new System.Drawing.Point(13, 182);
             lblAge.Name = "lblAge";
             lblAge.Size = new System.Drawing.Size(72, 15);
             lblAge.TabIndex = 5;
@@ -119,7 +122,7 @@
             // lblRecoveryScore
             // 
             lblRecoveryScore.AutoSize = true;
-            lblRecoveryScore.Location = new System.Drawing.Point(38, 321);
+            lblRecoveryScore.Location = new System.Drawing.Point(13, 240);
             lblRecoveryScore.Name = "lblRecoveryScore";
             lblRecoveryScore.Size = new System.Drawing.Size(93, 15);
             lblRecoveryScore.TabIndex = 6;
@@ -128,7 +131,7 @@
             // lblStatus
             // 
             lblStatus.AutoSize = true;
-            lblStatus.Location = new System.Drawing.Point(38, 364);
+            lblStatus.Location = new System.Drawing.Point(13, 294);
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new System.Drawing.Size(45, 15);
             lblStatus.TabIndex = 7;
@@ -137,7 +140,7 @@
             // lblHousingUnit
             // 
             lblHousingUnit.AutoSize = true;
-            lblHousingUnit.Location = new System.Drawing.Point(38, 406);
+            lblHousingUnit.Location = new System.Drawing.Point(13, 345);
             lblHousingUnit.Name = "lblHousingUnit";
             lblHousingUnit.Size = new System.Drawing.Size(83, 15);
             lblHousingUnit.TabIndex = 8;
@@ -145,7 +148,7 @@
             // 
             // txtAnimalID
             // 
-            txtAnimalID.Location = new System.Drawing.Point(174, 112);
+            txtAnimalID.Location = new System.Drawing.Point(149, 33);
             txtAnimalID.Name = "txtAnimalID";
             txtAnimalID.Size = new System.Drawing.Size(182, 23);
             txtAnimalID.TabIndex = 9;
@@ -158,55 +161,47 @@
             label8.Size = new System.Drawing.Size(0, 15);
             label8.TabIndex = 10;
             // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new System.Drawing.Point(40, 54);
-            label9.Name = "label9";
-            label9.Size = new System.Drawing.Size(86, 15);
-            label9.TabIndex = 11;
-            label9.Text = "Animal Details ";
-            // 
             // BaobabTitle
             // 
             BaobabTitle.AutoSize = true;
-            BaobabTitle.Location = new System.Drawing.Point(294, 8);
+            BaobabTitle.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            BaobabTitle.Location = new System.Drawing.Point(164, 18);
             BaobabTitle.Name = "BaobabTitle";
-            BaobabTitle.Size = new System.Drawing.Size(237, 15);
+            BaobabTitle.Size = new System.Drawing.Size(517, 32);
             BaobabTitle.TabIndex = 12;
             BaobabTitle.Text = "Baobab Ridge Wildlife Rehabilitation Centre";
             // 
             // txtName
             // 
-            txtName.Location = new System.Drawing.Point(174, 164);
+            txtName.Location = new System.Drawing.Point(149, 82);
             txtName.Name = "txtName";
             txtName.Size = new System.Drawing.Size(182, 23);
             txtName.TabIndex = 13;
             // 
             // txtSpecies
             // 
-            txtSpecies.Location = new System.Drawing.Point(174, 217);
+            txtSpecies.Location = new System.Drawing.Point(149, 131);
             txtSpecies.Name = "txtSpecies";
             txtSpecies.Size = new System.Drawing.Size(182, 23);
             txtSpecies.TabIndex = 14;
             // 
             // txtAge
             // 
-            txtAge.Location = new System.Drawing.Point(174, 270);
+            txtAge.Location = new System.Drawing.Point(149, 182);
             txtAge.Name = "txtAge";
             txtAge.Size = new System.Drawing.Size(182, 23);
             txtAge.TabIndex = 15;
             // 
             // txtRecoveryScore
             // 
-            txtRecoveryScore.Location = new System.Drawing.Point(174, 315);
+            txtRecoveryScore.Location = new System.Drawing.Point(149, 234);
             txtRecoveryScore.Name = "txtRecoveryScore";
             txtRecoveryScore.Size = new System.Drawing.Size(182, 23);
             txtRecoveryScore.TabIndex = 16;
             // 
             // txtStatus
             // 
-            txtStatus.Location = new System.Drawing.Point(174, 358);
+            txtStatus.Location = new System.Drawing.Point(149, 288);
             txtStatus.Name = "txtStatus";
             txtStatus.ReadOnly = true;
             txtStatus.Size = new System.Drawing.Size(182, 23);
@@ -214,7 +209,7 @@
             // 
             // txtHousingUnit
             // 
-            txtHousingUnit.Location = new System.Drawing.Point(174, 400);
+            txtHousingUnit.Location = new System.Drawing.Point(149, 342);
             txtHousingUnit.Name = "txtHousingUnit";
             txtHousingUnit.ReadOnly = true;
             txtHousingUnit.Size = new System.Drawing.Size(182, 23);
@@ -222,9 +217,9 @@
             // 
             // btnAdd
             // 
-            btnAdd.Location = new System.Drawing.Point(40, 482);
+            btnAdd.Location = new System.Drawing.Point(10, 496);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new System.Drawing.Size(94, 22);
+            btnAdd.Size = new System.Drawing.Size(200, 35);
             btnAdd.TabIndex = 20;
             btnAdd.Text = "Add";
             btnAdd.UseVisualStyleBackColor = true;
@@ -233,9 +228,9 @@
             // btnSaveChanges
             // 
             btnSaveChanges.Enabled = false;
-            btnSaveChanges.Location = new System.Drawing.Point(174, 482);
+            btnSaveChanges.Location = new System.Drawing.Point(216, 496);
             btnSaveChanges.Name = "btnSaveChanges";
-            btnSaveChanges.Size = new System.Drawing.Size(100, 22);
+            btnSaveChanges.Size = new System.Drawing.Size(200, 35);
             btnSaveChanges.TabIndex = 21;
             btnSaveChanges.Text = "Save Changes";
             btnSaveChanges.UseVisualStyleBackColor = true;
@@ -244,9 +239,9 @@
             // btnClear
             // 
             btnClear.Enabled = false;
-            btnClear.Location = new System.Drawing.Point(297, 482);
+            btnClear.Location = new System.Drawing.Point(422, 496);
             btnClear.Name = "btnClear";
-            btnClear.Size = new System.Drawing.Size(88, 22);
+            btnClear.Size = new System.Drawing.Size(200, 35);
             btnClear.TabIndex = 22;
             btnClear.Text = "Clear";
             btnClear.UseVisualStyleBackColor = true;
@@ -254,9 +249,9 @@
             // 
             // btnDelete
             // 
-            btnDelete.Location = new System.Drawing.Point(421, 482);
+            btnDelete.Location = new System.Drawing.Point(628, 496);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new System.Drawing.Size(89, 22);
+            btnDelete.Size = new System.Drawing.Size(200, 35);
             btnDelete.TabIndex = 23;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = true;
@@ -264,9 +259,9 @@
             // 
             // btnGenerateSummary
             // 
-            btnGenerateSummary.Location = new System.Drawing.Point(43, 510);
+            btnGenerateSummary.Location = new System.Drawing.Point(438, 81);
             btnGenerateSummary.Name = "btnGenerateSummary";
-            btnGenerateSummary.Size = new System.Drawing.Size(136, 22);
+            btnGenerateSummary.Size = new System.Drawing.Size(365, 35);
             btnGenerateSummary.TabIndex = 24;
             btnGenerateSummary.Text = "Generate Summary";
             btnGenerateSummary.UseVisualStyleBackColor = true;
@@ -274,7 +269,7 @@
             // 
             // txtSearchID
             // 
-            txtSearchID.Location = new System.Drawing.Point(582, 112);
+            txtSearchID.Location = new System.Drawing.Point(135, 454);
             txtSearchID.Name = "txtSearchID";
             txtSearchID.Size = new System.Drawing.Size(131, 23);
             txtSearchID.TabIndex = 25;
@@ -286,7 +281,7 @@
             dgvAnimals.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dgvAnimals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvAnimals.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { colAnimalID, colName, colSpecies, colAge, colRecoveryScore, colStatus, colHousingUnit });
-            dgvAnimals.Location = new System.Drawing.Point(40, 537);
+            dgvAnimals.Location = new System.Drawing.Point(10, 537);
             dgvAnimals.MultiSelect = false;
             dgvAnimals.Name = "dgvAnimals";
             dgvAnimals.ReadOnly = true;
@@ -294,7 +289,7 @@
             dgvAnimals.RowHeadersWidth = 51;
             dgvAnimals.RowTemplate.Height = 24;
             dgvAnimals.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            dgvAnimals.Size = new System.Drawing.Size(788, 290);
+            dgvAnimals.Size = new System.Drawing.Size(818, 298);
             dgvAnimals.TabIndex = 26;
             dgvAnimals.CellClick += dgvAnimals_CellClick;
             // 
@@ -351,7 +346,7 @@
             // lblSearch
             // 
             lblSearch.AutoSize = true;
-            lblSearch.Location = new System.Drawing.Point(449, 115);
+            lblSearch.Location = new System.Drawing.Point(51, 458);
             lblSearch.Name = "lblSearch";
             lblSearch.Size = new System.Drawing.Size(78, 15);
             lblSearch.TabIndex = 27;
@@ -359,9 +354,9 @@
             // 
             // btnSearch
             // 
-            btnSearch.Location = new System.Drawing.Point(719, 112);
+            btnSearch.Location = new System.Drawing.Point(272, 454);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new System.Drawing.Size(75, 23);
+            btnSearch.Size = new System.Drawing.Size(126, 23);
             btnSearch.TabIndex = 28;
             btnSearch.Text = "Search";
             btnSearch.UseVisualStyleBackColor = true;
@@ -370,7 +365,7 @@
             // lblTotalAnimals
             // 
             lblTotalAnimals.AutoSize = true;
-            lblTotalAnimals.Location = new System.Drawing.Point(449, 163);
+            lblTotalAnimals.Location = new System.Drawing.Point(18, 32);
             lblTotalAnimals.Name = "lblTotalAnimals";
             lblTotalAnimals.Size = new System.Drawing.Size(83, 15);
             lblTotalAnimals.TabIndex = 29;
@@ -387,7 +382,7 @@
             // lblAverageAge
             // 
             lblAverageAge.AutoSize = true;
-            lblAverageAge.Location = new System.Drawing.Point(449, 203);
+            lblAverageAge.Location = new System.Drawing.Point(18, 72);
             lblAverageAge.Name = "lblAverageAge";
             lblAverageAge.Size = new System.Drawing.Size(116, 15);
             lblAverageAge.TabIndex = 31;
@@ -404,7 +399,7 @@
             // lblAverageScore
             // 
             lblAverageScore.AutoSize = true;
-            lblAverageScore.Location = new System.Drawing.Point(449, 243);
+            lblAverageScore.Location = new System.Drawing.Point(18, 112);
             lblAverageScore.Name = "lblAverageScore";
             lblAverageScore.Size = new System.Drawing.Size(135, 15);
             lblAverageScore.TabIndex = 33;
@@ -421,7 +416,7 @@
             // lblCritical
             // 
             lblCritical.AutoSize = true;
-            lblCritical.Location = new System.Drawing.Point(449, 283);
+            lblCritical.Location = new System.Drawing.Point(18, 152);
             lblCritical.Name = "lblCritical";
             lblCritical.Size = new System.Drawing.Size(50, 15);
             lblCritical.TabIndex = 35;
@@ -438,7 +433,7 @@
             // lblSerious
             // 
             lblSerious.AutoSize = true;
-            lblSerious.Location = new System.Drawing.Point(449, 323);
+            lblSerious.Location = new System.Drawing.Point(18, 192);
             lblSerious.Name = "lblSerious";
             lblSerious.Size = new System.Drawing.Size(51, 15);
             lblSerious.TabIndex = 37;
@@ -455,7 +450,7 @@
             // lblStable
             // 
             lblStable.AutoSize = true;
-            lblStable.Location = new System.Drawing.Point(449, 363);
+            lblStable.Location = new System.Drawing.Point(18, 232);
             lblStable.Name = "lblStable";
             lblStable.Size = new System.Drawing.Size(45, 15);
             lblStable.TabIndex = 39;
@@ -472,7 +467,7 @@
             // lblRecovering
             // 
             lblRecovering.AutoSize = true;
-            lblRecovering.Location = new System.Drawing.Point(449, 403);
+            lblRecovering.Location = new System.Drawing.Point(18, 272);
             lblRecovering.Name = "lblRecovering";
             lblRecovering.Size = new System.Drawing.Size(72, 15);
             lblRecovering.TabIndex = 41;
@@ -489,7 +484,7 @@
             // lblReleaseReady
             // 
             lblReleaseReady.AutoSize = true;
-            lblReleaseReady.Location = new System.Drawing.Point(449, 443);
+            lblReleaseReady.Location = new System.Drawing.Point(18, 312);
             lblReleaseReady.Name = "lblReleaseReady";
             lblReleaseReady.Size = new System.Drawing.Size(89, 15);
             lblReleaseReady.TabIndex = 43;
@@ -503,27 +498,59 @@
             txtReleaseReady.Size = new System.Drawing.Size(120, 23);
             txtReleaseReady.TabIndex = 44;
             // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(txtHousingUnit);
+            groupBox1.Controls.Add(lblAnimalID);
+            groupBox1.Controls.Add(txtAnimalID);
+            groupBox1.Controls.Add(lblName);
+            groupBox1.Controls.Add(txtName);
+            groupBox1.Controls.Add(txtSpecies);
+            groupBox1.Controls.Add(lblSpecies);
+            groupBox1.Controls.Add(txtAge);
+            groupBox1.Controls.Add(lblAge);
+            groupBox1.Controls.Add(txtRecoveryScore);
+            groupBox1.Controls.Add(lblRecoveryScore);
+            groupBox1.Controls.Add(txtStatus);
+            groupBox1.Controls.Add(lblStatus);
+            groupBox1.Controls.Add(lblHousingUnit);
+            groupBox1.Location = new System.Drawing.Point(38, 72);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new System.Drawing.Size(360, 376);
+            groupBox1.TabIndex = 45;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Animal Details";
+            // 
+            // gbSummary
+            // 
+            gbSummary.Controls.Add(lblTotalAnimals);
+            gbSummary.Controls.Add(lblReleaseReady);
+            gbSummary.Controls.Add(lblRecovering);
+            gbSummary.Controls.Add(lblAverageAge);
+            gbSummary.Controls.Add(lblStable);
+            gbSummary.Controls.Add(lblSerious);
+            gbSummary.Controls.Add(lblAverageScore);
+            gbSummary.Controls.Add(lblCritical);
+            gbSummary.Location = new System.Drawing.Point(438, 131);
+            gbSummary.Name = "gbSummary";
+            gbSummary.Size = new System.Drawing.Size(365, 346);
+            gbSummary.TabIndex = 46;
+            gbSummary.TabStop = false;
+            gbSummary.Text = "Summary Stats";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(839, 847);
             Controls.Add(txtTotalAnimals);
-            Controls.Add(lblTotalAnimals);
             Controls.Add(txtAverageAge);
-            Controls.Add(lblAverageAge);
             Controls.Add(txtAverageScore);
-            Controls.Add(lblAverageScore);
             Controls.Add(txtCritical);
-            Controls.Add(lblCritical);
             Controls.Add(txtSerious);
-            Controls.Add(lblSerious);
             Controls.Add(txtStable);
-            Controls.Add(lblStable);
             Controls.Add(txtRecovering);
-            Controls.Add(lblRecovering);
             Controls.Add(txtReleaseReady);
-            Controls.Add(lblReleaseReady);
             Controls.Add(btnSearch);
             Controls.Add(lblSearch);
             Controls.Add(dgvAnimals);
@@ -533,28 +560,19 @@
             Controls.Add(btnClear);
             Controls.Add(btnSaveChanges);
             Controls.Add(btnAdd);
-            Controls.Add(txtHousingUnit);
-            Controls.Add(txtStatus);
-            Controls.Add(txtRecoveryScore);
-            Controls.Add(txtAge);
-            Controls.Add(txtSpecies);
-            Controls.Add(txtName);
             Controls.Add(BaobabTitle);
-            Controls.Add(label9);
             Controls.Add(label8);
-            Controls.Add(txtAnimalID);
-            Controls.Add(lblHousingUnit);
-            Controls.Add(lblStatus);
-            Controls.Add(lblRecoveryScore);
-            Controls.Add(lblAge);
-            Controls.Add(lblSpecies);
-            Controls.Add(lblName);
-            Controls.Add(lblAnimalID);
+            Controls.Add(groupBox1);
+            Controls.Add(gbSummary);
             Name = "Form1";
             Tag = "Animal Details";
             Text = "Baobab Ridge Wildlife Rehabilitation Centre";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dgvAnimals).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            gbSummary.ResumeLayout(false);
+            gbSummary.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
 
@@ -570,7 +588,6 @@
         private System.Windows.Forms.Label lblHousingUnit;
         private System.Windows.Forms.TextBox txtAnimalID;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label BaobabTitle;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.TextBox txtSpecies;
@@ -610,5 +627,7 @@
         private System.Windows.Forms.TextBox txtRecovering;
         private System.Windows.Forms.Label lblReleaseReady;
         private System.Windows.Forms.TextBox txtReleaseReady;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbSummary;
     }
 }
