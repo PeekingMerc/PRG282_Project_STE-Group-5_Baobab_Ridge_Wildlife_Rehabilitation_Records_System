@@ -39,3 +39,7 @@ summary.txt displays a text report that reflects the most recent summary generat
 ## Known Limitations
 - Lines in animals.txt that are "malformed" are skipped when loading and are not kept when the file is rewritten
 - An animal ID cannot be changed after the animal is saved
+
+
+## NOTE
+The project requires each student to do their own PR merge with main. Alexander worked on the feature/summary-report branch and Boitemogelo worked on the feature/view-animals branch. Neither of them did a PR merge with main, so to demonstrate their ability, they created the other two branches which they sucessfully merged to main as specified by the project. 
